@@ -94,7 +94,7 @@ class CamVid(VisionDataset):
         """
 
         image = Image.open(self.images[index]).convert('RGB')
-        target = Image.open(self.targets[index][i])
+        target = Image.open(self.targets[index])
 
         if self.transforms is not None:
             image, target = self.transforms(image, target)
