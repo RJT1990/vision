@@ -73,7 +73,7 @@ class CamVid(VisionDataset):
                              ' or split="val"')
 
         if not os.path.isdir(self.images_dir) or not os.path.isdir(self.targets_dir):
-            dataset_zip = os.path.join(self.root, 'CamVid')  # if CamVid.zip is present, then auto unzip
+            dataset_zip = os.path.join(self.root, 'CamVid.zip')  # if CamVid.zip is present, then auto unzip
 
             if os.path.isfile(dataset_zip):
                 extract_archive(from_path=dataset_zip, to_path=self.root)
