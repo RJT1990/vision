@@ -16,6 +16,12 @@ class Tester(unittest.TestCase):
         self.assertTrue(isinstance(img, PIL.Image.Image))
         self.assertTrue(isinstance(target, int))
 
+    def generic_segmentation_dataset_test(self, dataset, num_images=1):
+        self.assertEqual(len(dataset), num_images)
+        img, target = dataset[0]
+        self.assertTrue(isinstance(img, PIL.Image.Image))
+        self.assertTrue(isinstance(target, PIL.Image.Image))
+
     def test_imagefolder(self):
         # TODO: create the fake data on-the-fly
         FAKEDATA_DIR = get_file_path_2(
@@ -133,6 +139,41 @@ class Tester(unittest.TestCase):
             img, target = dataset[0]
             self.assertEqual(dataset.class_to_idx[dataset.classes[0]], target)
 
+    def test_cityscapes(self):
+        with cityscapes_root() as root:
+
+            # Test different splits
+            dataset = torchvision.datasets.Cityscapes(root, split='train', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.Cityscapes(root, split='val', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.Cityscapes(root, split='test', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+
+            # Test different modes
+            dataset = torchvision.datasets.Cityscapes(root, mode='gtFine', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.Cityscapes(root, split='gtCoarse', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+
+            # Test different target types
+            dataset = torchvision.datasets.Cityscapes(root, target_type='instance', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.Cityscapes(root, target_type='semantic', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.Cityscapes(root, target_type='polygon', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.Cityscapes(root, target_type='color', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+
+    def test_camvid(self):
+        with camvid_root() as root:
+            dataset = torchvision.datasets.CamVid(root, split='train', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.CamVid(root, split='val', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.CamVid(root, split='test', download=True)
+            self.generic_segmentation_dataset_test(dataset)
 
 if __name__ == '__main__':
     unittest.main()

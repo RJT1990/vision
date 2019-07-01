@@ -186,6 +186,16 @@ Cityscapes
   :members: __getitem__
   :special-members:
 
+CamVid
+~~~~~~~~~~
+
+.. note ::
+    Requires CamVid to be downloaded.
+
+.. autoclass:: CamVid
+  :members: __getitem__
+  :special-members:
+
 SBD
 ~~~~~~
 

@@ -168,3 +168,35 @@ def imagenet_root():
         _make_devkit_archive(root)
 
         yield root
+
+
+@contextlib.contextmanager
+def cityscapes_root():
+    import scipy.io as sio
+
+    def _make_image(file):
+        PIL.Image.fromarray(np.zeros((480, 360, 3), dtype=np.uint8)).save(file)
+
+    with get_tmp_dir() as tmp_dir:
+        for folder_name in ['val', 'valannot', 'train', 'trainannot', 'test', 'testannot']:
+            split_dir = os.path.join(tmp_dir, folder_name)
+            os.makedirs(split_dir)
+            _make_image(os.path.join(split_dir, '0016E5_00000.png'))
+
+        yield tmp_dir
+
+
+@contextlib.contextmanager
+def camvid_root():
+    import scipy.io as sio
+
+    def _make_image(file):
+        PIL.Image.fromarray(np.zeros((480, 360, 3), dtype=np.uint8)).save(file)
+
+    with get_tmp_dir() as tmp_dir:
+        for folder_name in ['val', 'valannot', 'train', 'trainannot', 'test', 'testannot']:
+            split_dir = os.path.join(tmp_dir, folder_name)
+            os.makedirs(split_dir)
+            _make_image(os.path.join(split_dir, '0016E5_00000.png'))
+
+        yield tmp_dir
