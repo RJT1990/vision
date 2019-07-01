@@ -87,7 +87,6 @@ class PASCALContext(VisionDataset):
                          filename=os.path.basename(archive_dict['url']),
                          md5=archive_dict['md5'])
 
-    download_url(url, download_root, filename, md5)
     def __getitem__(self, index):
         """
         Args:
