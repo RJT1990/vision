@@ -10,7 +10,7 @@ else:
     import xml.etree.ElementTree as ET
 
 from PIL import Image
-from .utils import download_and_extract_archive, check_integrity
+from .utils import check_integrity, download_and_extract_archive, download_url
 
 ARCHIVE_DICT = {
     'trainval_annot': {
@@ -83,10 +83,11 @@ class PASCALContext(VisionDataset):
 
         if not check_integrity(self.annotations_file):
             archive_dict = ARCHIVE_DICT['trainval_annot']
-            download_and_extract_archive(archive_dict['url'], self.root,
-                                         extract_root=os.path.join(self.root, 'VOCdevkit', 'VOC2010'),
-                                         md5=archive_dict['md5'])
+            download_url(archive_dict['url'], self.root,
+                         filename=os.path.basename(archive_dict['url']),
+                         md5=archive_dict['md5'])
 
+    download_url(url, download_root, filename, md5)
     def __getitem__(self, index):
         """
         Args:
