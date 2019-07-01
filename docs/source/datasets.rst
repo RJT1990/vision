@@ -196,6 +196,13 @@ CamVid
   :members: __getitem__
   :special-members:
 
+PASCAL Context
+~~~~~~~~~~
+
+.. autoclass:: PASCALContext
+  :members: __getitem__
+  :special-members:
+
 SBD
 ~~~~~~
 
