@@ -15,11 +15,11 @@ from .utils import download_url, check_integrity
 ARCHIVE_DICT = {
     'trainval_annot': {
         'url': 'https://codalabuser.blob.core.windows.net/public/trainval_merged.json',
-        'md5': '6cd6e144f989b92b3379bac3b3de84fd',
+        'md5': '3c2d0c0656b7be9eb61928ffe885d8ce',
     },
     'trainval': {
         'url': 'http://host.robots.ox.ac.uk/pascal/VOC/voc2010/VOCtrainval_03-May-2010.tar',
-        'md5': '59065e4b188729180974ef6572f6a212',
+        'md5': 'da459979d0c395079b5c75ee67908abb',
         'base_dir': 'VOCdevkit/VOC2010',
     }
 }
