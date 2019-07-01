@@ -1,3 +1,5 @@
+import json
+import numpy as np
 import os
 import sys
 import tarfile
@@ -63,6 +65,43 @@ class PASCALContext(VisionDataset):
         if not os.path.isdir(self.voc_root):
             raise RuntimeError('Dataset not found or corrupted.' +
                                ' You can use download=True to download it')
+
+
+        self.annotations_dict = json.load(open(dataset.annotations_file, 'r'))
+        self.ids = annotations_dict['images']
+
+        self._mapping = np.sort(np.array([
+            0, 2, 259, 260, 415, 324, 9, 258, 144, 18, 19, 22,
+            23, 397, 25, 284, 158, 159, 416, 33, 162, 420, 454, 295, 296,
+            427, 44, 45, 46, 308, 59, 440, 445, 31, 232, 65, 354, 424,
+            68, 326, 72, 458, 34, 207, 80, 355, 85, 347, 220, 349, 360,
+            98, 187, 104, 105, 366, 189, 368, 113, 115]))
+        self._key = np.array(range(len(self._mapping))).astype('uint8')
+        mask_file = os.path.join(self.voc_root, self.split+'.pth')
+        if os.path.exists(mask_file):
+            self.masks = torch.load(mask_file)
+        else:
+            print('Mask file does not exist...now preprocessing masks')
+            self.masks = self._preprocess_masks(mask_file)
+
+    def _class_to_index(self, mask):
+        # assert the values
+        values = np.unique(mask)
+        for i in range(len(values)):
+            assert(values[i] in self._mapping)
+        index = np.digitize(mask.ravel(), self._mapping, right=True)
+        return self._key[index].reshape(mask.shape)
+
+    def _preprocess_masks(self, mask_file):
+        masks = {}
+        print(len(self.ids))
+        for i in range(len(self.ids)):
+            print(i)
+            img_id = self.ids[i]
+            #mask = Image.fromarray(self._class_to_index(self._get_mask(img_id)))
+            #masks[img_id['image_id']] = mask
+        #torch.save(masks, mask_file)
+        return masks
 
     @property
     def annotations_file(self):
