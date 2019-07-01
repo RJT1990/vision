@@ -10,7 +10,7 @@ else:
     import xml.etree.ElementTree as ET
 
 from PIL import Image
-from .utils import download_url, check_integrity
+from .utils import download_and_extract_archive, check_integrity
 
 ARCHIVE_DICT = {
     'trainval_annot': {
