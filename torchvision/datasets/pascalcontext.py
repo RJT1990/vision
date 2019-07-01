@@ -68,7 +68,7 @@ class PASCALContext(VisionDataset):
 
 
         self.annotations_dict = json.load(open(self.annotations_file, 'r'))
-        self.ids = annotations_dict['images']
+        self.ids = self.annotations_dict['images']
 
         self._mapping = np.sort(np.array([
             0, 2, 259, 260, 415, 324, 9, 258, 144, 18, 19, 22,
