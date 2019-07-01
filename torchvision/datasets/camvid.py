@@ -82,8 +82,8 @@ class CamVid(VisionDataset):
                                    ' specified "split" are inside the "root" directory')
 
         for file_name in os.listdir(self.images_dir):
-            self.images.append(os.path.join(img_dir, file_name))
-            self.targets.append(os.path.join(target_dir, file_name))
+            self.images.append(os.path.join(self.images_dir, file_name))
+            self.targets.append(os.path.join(self.targets_dir, file_name))
 
     def __getitem__(self, index):
         """
