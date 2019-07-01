@@ -53,14 +53,14 @@ class PASCALContext(VisionDataset):
 
         base_dir = ARCHIVE_DICT['trainval']['base_dir']
         self.voc_root = os.path.join(self.root, base_dir)
-        image_dir = os.path.join(voc_root, 'JPEGImages')
-        mask_dir = os.path.join(voc_root, 'SegmentationClass')
+        image_dir = os.path.join(self.voc_root, 'JPEGImages')
+        mask_dir = os.path.join(self.voc_root, 'SegmentationClass')
         self.split = split
 
         if download:
             self.download()
 
-        if not os.path.isdir(voc_root):
+        if not os.path.isdir(self.voc_root):
             raise RuntimeError('Dataset not found or corrupted.' +
                                ' You can use download=True to download it')
 
