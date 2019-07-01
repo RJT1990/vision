@@ -67,7 +67,7 @@ class PASCALContext(VisionDataset):
                                ' You can use download=True to download it')
 
 
-        self.annotations_dict = json.load(open(dataset.annotations_file, 'r'))
+        self.annotations_dict = json.load(open(self.annotations_file, 'r'))
         self.ids = annotations_dict['images']
 
         self._mapping = np.sort(np.array([
@@ -122,7 +122,7 @@ class PASCALContext(VisionDataset):
 
         if not check_integrity(self.annotations_file):
             archive_dict = ARCHIVE_DICT['trainval_annot']
-            download_url(archive_dict['url'], self.root,
+            download_url(archive_dict['url'], self.voc_root,
                          filename=os.path.basename(archive_dict['url']),
                          md5=archive_dict['md5'])
 
