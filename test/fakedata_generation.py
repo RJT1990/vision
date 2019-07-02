@@ -191,15 +191,7 @@ def ade20k_root():
         with get_tmp_dir() as tmp_dir:
             base_dir = 'ADEChallengeData2016'
 
-            import pdb
-            pdb.set_trace()
-
-            os.makedirs(os.path.join(tmp_dir, base_dir, 'images'))
-            os.makedirs(os.path.join(tmp_dir, base_dir, 'annotations'))
-
             for folder_name in ['images', 'annotations']:
-                import pdb
-                pdb.set_trace()
                 folder_dir = os.path.join(tmp_dir, base_dir, folder_name)
                 os.makedirs(folder_dir)
                 for split_name in ['training', 'validation']:
@@ -207,7 +199,13 @@ def ade20k_root():
                     os.makedirs(os.path.join(split_dir))
                     _make_image(os.path.join(split_dir, 'ADE_train_00000000.png'))
 
+            import pdb
+            pdb.set_trace()
+
             _make_zip(zip_name='ADEChallengeData2016.zip', path=root, content=os.path.join(tmp_dir, base_dir))
+
+            import pdb
+            pdb.set_trace()
 
     with get_tmp_dir() as root:
         _make_data_archive(root)
