@@ -182,7 +182,8 @@ def ade20k_root():
         zipf = zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED)
         for root, dirs, files in os.walk(content):
             for file in files:
-                zipf.write(os.path.join(root, file))
+                file_name = os.path.join(root, file)
+                zipf.write(file_name, arcname='/'.join(file_name.split('/')[2:]))
         zipf.close()
 
     def _make_data_archive(root):

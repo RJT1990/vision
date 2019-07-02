@@ -234,9 +234,6 @@ class ADE20K(VisionDataset):
         self.images = []
         self.targets = []
 
-        import pdb
-        pdb.set_trace()
-
         for file_name in os.listdir(self.images_dir):
             self.images.append(os.path.join(self.images_dir, file_name))
             self.targets.append(os.path.join(self.targets_dir, file_name.replace('jpg', 'png')))
