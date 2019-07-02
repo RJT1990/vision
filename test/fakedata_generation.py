@@ -178,13 +178,11 @@ def ade20k_root():
     def _make_image(file):
         PIL.Image.fromarray(np.zeros((480, 640, 3), dtype=np.uint8)).save(file)
 
-    def _make_zip(content, zip_name, path):
-        zipf = zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED)
+    def _make_zip(archive, content):
+        zipf = zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED)
         for root, dirs, files in os.walk(content):
             for file in files:
                 zipf.write(os.path.join(root, file))
-
-        zipdir(path, zipf)
         zipf.close()
 
     def _make_data_archive(root):
@@ -199,10 +197,9 @@ def ade20k_root():
                     os.makedirs(os.path.join(split_dir))
                     _make_image(os.path.join(split_dir, 'ADE_train_00000000.png'))
 
-            import pdb
-            pdb.set_trace()
+            archive = os.path.join(tmp_dir, 'ADEChallengeData2016.zip')
 
-            _make_zip(zip_name='ADEChallengeData2016.zip', path=root, content=os.path.join(tmp_dir, base_dir))
+            _make_zip(archive=archive, content=os.path.join(tmp_dir, base_dir))
 
             import pdb
             pdb.set_trace()
