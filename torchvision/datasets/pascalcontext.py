@@ -74,9 +74,14 @@ class PASCALContext(VisionDataset):
             raise RuntimeError('Dataset not found or corrupted.' +
                                ' You can use download=True to download it')
 
-
         self.annotations_dict = json.load(open(self.annotations_file, 'r'))
-        self.ids = self.annotations_dict['images']
+
+        old_imgs = self.annotations_dict['images']
+        self.ids = copy.copy(old_imgs)
+        for img in old_imgs:
+            if img['phase'] != self.split:
+                self.ids.remove(img)
+
         mask_file = os.path.join(self.voc_root, self.split+'.pth')
         self.masks = torch.load(mask_file)
 
