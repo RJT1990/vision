@@ -141,7 +141,7 @@ class Tester(unittest.TestCase):
 
     @mock.patch('torchvision.datasets.ade20k.download_and_extract_archive')
     def test_ade20k(self):
-        with ade20k_root() as root:
+        with ade20k_root(mock_download_extract) as root:
             dataset = torchvision.datasets.ADE20K(root, split='train', download=True)
             self.generic_segmentation_dataset_test(dataset)
             dataset = torchvision.datasets.ADE20K(root, split='val', download=True)
