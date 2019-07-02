@@ -208,7 +208,7 @@ class ADE20K(VisionDataset):
         ADE20KClass('flag', 150, (92, 0, 255)),
     ]
 
-    def __init__(self, root, split='train', transform=None, target_transform=None, transforms=None):
+    def __init__(self, root, split='train', download=False, transform=None, target_transform=None, transforms=None):
         super(ADE20K, self).__init__(root, transforms, transform, target_transform)
 
         base_dir = ARCHIVE_DICT['trainval']['base_dir']
@@ -224,9 +224,18 @@ class ADE20K(VisionDataset):
             self.targets_dir = os.path.join(self.root, base_dir, 'annotations', 'validation')
 
         self.split = split
+
+        if download:
+            self.download()
+
         self.images = []
         self.targets = []
 
+        for file_name in os.listdir(self.images_dir):
+            self.images.append(os.path.join(self.images_dir, file_name))
+            self.targets.append(os.path.join(self.targets_dir, file_name))
+
+    def download(self):
         if not os.path.isdir(self.images_dir) or not os.path.isdir(self.targets_dir):
 
             archive_dict = ARCHIVE_DICT['trainval']
@@ -239,10 +248,6 @@ class ADE20K(VisionDataset):
                     "the root directory. If you want to re-download or re-extract the "
                     "archive, delete the folder.")
             print(msg)
-
-        for file_name in os.listdir(self.images_dir):
-            self.images.append(os.path.join(self.images_dir, file_name))
-            self.targets.append(os.path.join(self.targets_dir, file_name))
 
     def __getitem__(self, index):
         """
