@@ -6,7 +6,7 @@ from PIL import Image
 from torch._utils_internal import get_file_path_2
 import torchvision
 from common_utils import get_tmp_dir
-from fakedata_generation import mnist_root, cifar_root, imagenet_root
+from fakedata_generation import mnist_root, cifar_root, imagenet_root, ade20k_root, camvid_root
 
 
 class Tester(unittest.TestCase):
@@ -138,6 +138,16 @@ class Tester(unittest.TestCase):
             self.generic_classification_dataset_test(dataset)
             img, target = dataset[0]
             self.assertEqual(dataset.class_to_idx[dataset.classes[0]], target)
+
+    @mock.patch('torchvision.datasets.mnist.download_and_extract_archive')
+    def test_ade20k(self):
+        with ade20k_root() as root:
+            dataset = torchvision.datasets.ADE20K(root, split='train', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.ADE20K(root, split='val', download=True)
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.CamVid(root, split='test', download=True)
+            self.generic_segmentation_dataset_test(dataset)
 
     def test_camvid(self):
         with camvid_root() as root:

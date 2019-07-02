@@ -21,31 +21,33 @@ class ADE20K(VisionDataset):
     """`ADE20K <https://groups.csail.mit.edu/vision/datasets/ADE20K/>`_ Dataset
 
     Args:
-        root (string): Root directory of dataset where directory ``val/valannot`` or ``train/trainannot`` or
-        ``test/testannot`` are located.
-        split (string, optional): The image split to use, ``train``, ``test`` or ``val``
+        root (string): Root directory of the ADE20K dataset
+        split (string, optional): The image split to use, ``train`` or ``val``
+        download (bool, optional): If true, downloads the dataset from the internet and
+            puts it in root directory. If dataset is already downloaded, it is not
+            downloaded again.
         transform (callable, optional): A function/transform that takes in a PIL image
             and returns a transformed version. E.g, ``transforms.RandomCrop``
         target_transform (callable, optional): A function/transform that takes in the
-            target and transforms it.
+            PIL image target and transforms it.
         transforms (callable, optional): A function/transform that takes input sample and its target as entry
             and returns a transformed version.
 
     Examples:
 
-        Get dataset for training
+        Get dataset for training and download from internet
 
         .. code-block:: python
 
-            dataset = CamVid('./data/camvid', split='train')
+            dataset = ADE20K('./data/ade20k', split='train', download=True)
 
             img, target = dataset[0]
 
-        Get dataset for validation
+        Get dataset for validation and download from internet
 
         .. code-block:: python
 
-            dataset = CamVid('./data/camvid', split='val')
+            dataset = ADE20K('./data/ade20k', split='val', download=True)
 
             img, target = dataset[0]
     """

@@ -2,6 +2,7 @@ import os
 import sys
 import contextlib
 import tarfile
+import zipfile
 import numpy as np
 import PIL
 import torch
@@ -166,6 +167,45 @@ def imagenet_root():
         _make_train_archive(root)
         _make_val_archive(root)
         _make_devkit_archive(root)
+
+        yield root
+
+
+@contextlib.contextmanager
+def ade20k_root():
+    import scipy.io as sio
+
+    def _make_image(file):
+        PIL.Image.fromarray(np.zeros((480, 640, 3), dtype=np.uint8)).save(file)
+
+    def _make_zip(content, zip_name, path):
+        zipf = zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED)
+        for root, dirs, files in os.walk(content):
+            for file in files:
+                zipf.write(os.path.join(root, file))
+
+        zipdir(path, zipf)
+        zipf.close()
+
+    def _make_data_archive(root):
+        with get_tmp_dir() as tmp:
+            base_dir = 'ADEChallengeData2016'
+
+            os.makedirs(os.path.join(tmp_dir, base_dir, 'images'))
+            os.makedirs(os.path.join(tmp_dir, base_dir, 'annotations'))
+
+            for folder_name in ['images', 'annotations']:
+                folder_dir = os.path.join(tmp_dir, base_dir, folder_name)
+                os.makedirs(folder_dir)
+                for split_name in ['training', 'validation']:
+                    split_dir = os.path.join(folder_dir, split_name)
+                    os.makedirs(os.path.join(split_dir))
+                    _make_image(os.path.join(split_dir, 'ADE_train_00000000.png'))
+
+            _make_zip(zip_name='ADEChallengeData2016.zip', path=root, content=os.path.join(tmp_dir, base_dir))
+
+    with get_tmp_dir() as root:
+        _make_data_archive(root)
 
         yield root
 
