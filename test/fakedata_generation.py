@@ -197,12 +197,9 @@ def ade20k_root():
                     os.makedirs(os.path.join(split_dir))
                     _make_image(os.path.join(split_dir, 'ADE_train_00000000.png'))
 
-            archive = os.path.join(tmp_dir, 'ADEChallengeData2016.zip')
+            archive = os.path.join(root, 'ADEChallengeData2016.zip')
 
             _make_zip(archive=archive, content=os.path.join(tmp_dir, base_dir))
-
-            import pdb
-            pdb.set_trace()
 
     with get_tmp_dir() as root:
         _make_data_archive(root)
