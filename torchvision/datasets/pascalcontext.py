@@ -92,6 +92,13 @@ class PASCALContext(VisionDataset):
 
     def download(self):
 
+        if self.split == 'train':
+            mask_dict = ARCHIVE_DICT['mask_train']
+        elif self.split == 'val':
+            mask_dict = ARCHIVE_DICT['mask_val']
+
+        mask_file_loc = os.path.join(self.voc_root, os.path.basename(mask_dict['url']))
+
         if not os.path.isdir(self.voc_root):
 
             archive_dict = ARCHIVE_DICT['trainval']
@@ -104,19 +111,22 @@ class PASCALContext(VisionDataset):
                          filename=os.path.basename(archive_dict['url']),
                          md5=archive_dict['md5'])
 
-            if self.split == 'train':
-                mask_dict = ARCHIVE_DICT['mask_train']
-            elif self.split == 'val':
-                mask_dict = ARCHIVE_DICT['mask_val']
+        else:
+            msg = ("You set download=True, but a folder VOCdevkit already exist in "
+                   "the root directory. If you want to re-download or re-extract the "
+                   "archive, delete the folder.")
+            print(msg)
+
+        if not os.path.isfile(mask_file_loc):
 
             download_url(mask_dict['url'], self.voc_root,
                          filename=os.path.basename(mask_dict['url']),
                          md5=mask_dict['md5'])
 
         else:
-            msg = ("You set download=True, but a folder VOCdevkit already exist in "
-                   "the root directory. If you want to re-download or re-extract the "
-                   "archive, delete the folder.")
+            msg = ("You set download=True, but a mask file already exists in "
+                   "the root directory. If you want to re-download the "
+                   "mask file, delete the file.")
             print(msg)
 
     def __getitem__(self, index):
