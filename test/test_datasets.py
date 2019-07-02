@@ -139,7 +139,7 @@ class Tester(unittest.TestCase):
             img, target = dataset[0]
             self.assertEqual(dataset.class_to_idx[dataset.classes[0]], target)
 
-    @mock.patch('torchvision.datasets.ade20k.download_url')
+    @mock.patch('torchvision.datasets.utils.download_url')
     def test_ade20k(self, mock_download):
         with ade20k_root() as root:
             dataset = torchvision.datasets.ADE20K(root, split='train', download=True)
