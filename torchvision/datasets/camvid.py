@@ -1,7 +1,5 @@
-import json
 import os
 from collections import namedtuple
-import zipfile
 
 from .utils import extract_archive
 from .vision import VisionDataset
@@ -13,13 +11,13 @@ class CamVid(VisionDataset):
     is the same as in this repo by Cambridge MLG: https://github.com/alexgkendall/SegNet-Tutorial/tree/master/CamVid
 
     Args:
-        root (string): Root directory of dataset where directory ``val/valannot`` or ``train/trainannot`` or
-        ``test/testannot`` are located.
+        root (string): Root directory of dataset where directory ``val`` and ``valannot``
+        or ``train`` and ``trainannot`` or ``test`` and ``testannot`` are located.
         split (string, optional): The image split to use, ``train``, ``test`` or ``val``
         transform (callable, optional): A function/transform that takes in a PIL image
             and returns a transformed version. E.g, ``transforms.RandomCrop``
         target_transform (callable, optional): A function/transform that takes in the
-            target and transforms it.
+            PIL image target and transforms it.
         transforms (callable, optional): A function/transform that takes input sample and its target as entry
             and returns a transformed version.
 
@@ -42,22 +40,21 @@ class CamVid(VisionDataset):
             img, target = dataset[0]
     """
 
-    CamVidClass = namedtuple('CamVidClass', ['name', 'color'])
+    CamVidClass = namedtuple('CamVidClass', ['name', 'id', 'color'])
 
     classes = [
-        CamVidClass('sky', (128, 128, 128)),
-        CamVidClass('building', (128, 0, 0)),
-        CamVidClass('pole', (192, 192, 128)),
-        CamVidClass('road_marking', (255, 69, 0)),
-        CamVidClass('road', (128, 64, 128)),
-        CamVidClass('pavement', (60, 40, 222)),
-        CamVidClass('tree', (128, 128, 0)),
-        CamVidClass('sign_symbol', (192, 128, 128)),
-        CamVidClass('fence', (64, 64, 128)),
-        CamVidClass('car', (64, 0, 128)),
-        CamVidClass('pedestrian', (64, 64, 0)),
-        CamVidClass('bicyclist',  (0, 128, 192)),
-        CamVidClass('unlabeled', (0, 0, 0)),
+        CamVidClass('sky', 0, (128, 128, 128)),
+        CamVidClass('building', 1, (128, 0, 0)),
+        CamVidClass('pole', 2, (192, 192, 128)),
+        CamVidClass('road', 3, (128, 64, 128)),
+        CamVidClass('road_marking', 4, (255, 69, 0)),
+        CamVidClass('tree', 5, (128, 128, 0)),
+        CamVidClass('sign_symbol', 6, (192, 128, 128)),
+        CamVidClass('fence', 7, (64, 64, 128)),
+        CamVidClass('car', 8, (64, 0, 128)),
+        CamVidClass('pedestrian', 9, (64, 64, 0)),
+        CamVidClass('bicyclist', 10, (0, 128, 192)),
+        CamVidClass('pavement', 11, (60, 40, 222)),
     ]
 
     def __init__(self, root, split='train', transform=None, target_transform=None, transforms=None):

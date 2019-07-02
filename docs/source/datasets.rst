@@ -176,6 +176,13 @@ VOC
   :members: __getitem__
   :special-members:
 
+ADE20K
+~~~~~~~~~~
+
+.. autoclass:: ADE20K
+  :members: __getitem__
+  :special-members:
+
 Cityscapes
 ~~~~~~~~~~
 

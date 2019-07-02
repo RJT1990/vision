@@ -139,6 +139,19 @@ class Tester(unittest.TestCase):
             img, target = dataset[0]
             self.assertEqual(dataset.class_to_idx[dataset.classes[0]], target)
 
+    def test_camvid(self):
+        with camvid_root() as root:
+            dataset = torchvision.datasets.CamVid(root, split='train')
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.CamVid(root, split='val')
+            self.generic_segmentation_dataset_test(dataset)
+            dataset = torchvision.datasets.CamVid(root, split='test')
+            self.generic_segmentation_dataset_test(dataset)
+
+if __name__ == '__main__':
+    unittest.main()
+
+"""
     def test_cityscapes(self):
         with cityscapes_root() as root:
 
@@ -165,15 +178,4 @@ class Tester(unittest.TestCase):
             self.generic_segmentation_dataset_test(dataset)
             dataset = torchvision.datasets.Cityscapes(root, target_type='color', download=True)
             self.generic_segmentation_dataset_test(dataset)
-
-    def test_camvid(self):
-        with camvid_root() as root:
-            dataset = torchvision.datasets.CamVid(root, split='train', download=True)
-            self.generic_segmentation_dataset_test(dataset)
-            dataset = torchvision.datasets.CamVid(root, split='val', download=True)
-            self.generic_segmentation_dataset_test(dataset)
-            dataset = torchvision.datasets.CamVid(root, split='test', download=True)
-            self.generic_segmentation_dataset_test(dataset)
-
-if __name__ == '__main__':
-    unittest.main()
+"""
