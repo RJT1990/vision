@@ -139,8 +139,8 @@ class Tester(unittest.TestCase):
             img, target = dataset[0]
             self.assertEqual(dataset.class_to_idx[dataset.classes[0]], target)
 
-    @mock.patch('torchvision.datasets.ade20k.download_and_extract_archive')
-    def test_ade20k(self, mock_download_extract):
+    @mock.patch('torchvision.datasets.ade20k.download_url')
+    def test_ade20k(self, mock_download):
         with ade20k_root() as root:
             dataset = torchvision.datasets.ADE20K(root, split='train', download=True)
             self.generic_segmentation_dataset_test(dataset)
