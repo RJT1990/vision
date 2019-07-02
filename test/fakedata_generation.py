@@ -191,10 +191,15 @@ def ade20k_root():
         with get_tmp_dir() as tmp_dir:
             base_dir = 'ADEChallengeData2016'
 
+            import pdb
+            pdb.set_trace()
+
             os.makedirs(os.path.join(tmp_dir, base_dir, 'images'))
             os.makedirs(os.path.join(tmp_dir, base_dir, 'annotations'))
 
             for folder_name in ['images', 'annotations']:
+                import pdb
+                pdb.set_trace()
                 folder_dir = os.path.join(tmp_dir, base_dir, folder_name)
                 os.makedirs(folder_dir)
                 for split_name in ['training', 'validation']:
