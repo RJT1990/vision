@@ -94,18 +94,18 @@ class PASCALContext(VisionDataset):
                                          md5=archive_dict['md5'])
 
             archive_dict = ARCHIVE_DICT['trainval_annot']
-            download_and_extract_archive(archive_dict['url'], self.root,
-                                         extract_root=self.voc_root,
-                                         md5=archive_dict['md5'])
+            download_url(archive_dict['url'], self.voc_root,
+                         filename=os.path.basename(archive_dict['url']),
+                         md5=archive_dict['md5'])
 
             if key == 'mask_train' and self.split == 'train':
                 mask_dict = archive_dict['mask_train']
             elif key == 'mask_val' and self.split == 'val':
                 mask_dict = archive_dict['mask_val']
 
-            download_and_extract_archive(mask_dict['url'], self.root,
-                                         extract_root=self.voc_root,
-                                         md5=mask_dict['md5'])
+            download_url(mask_dict['url'], self.voc_root,
+                         filename=os.path.basename(mask_dict['url']),
+                         md5=mask_dict['md5'])
 
         else:
             msg = ("You set download=True, but a folder VOCdevkit already exist in "
