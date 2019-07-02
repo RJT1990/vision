@@ -98,9 +98,9 @@ class PASCALContext(VisionDataset):
                          filename=os.path.basename(archive_dict['url']),
                          md5=archive_dict['md5'])
 
-            if key == 'mask_train' and self.split == 'train':
+            if self.split == 'train':
                 mask_dict = archive_dict['mask_train']
-            elif key == 'mask_val' and self.split == 'val':
+            elif self.split == 'val':
                 mask_dict = archive_dict['mask_val']
 
             download_url(mask_dict['url'], self.voc_root,
