@@ -7,6 +7,7 @@ from .utils import extract_archive
 from .vision import VisionDataset
 from PIL import Image
 
+from .utils import download_and_extract_archive
 
 ARCHIVE_DICT = {
     'trainval': {
