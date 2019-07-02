@@ -188,7 +188,7 @@ def ade20k_root():
         zipf.close()
 
     def _make_data_archive(root):
-        with get_tmp_dir() as tmp:
+        with get_tmp_dir() as tmp_dir:
             base_dir = 'ADEChallengeData2016'
 
             os.makedirs(os.path.join(tmp_dir, base_dir, 'images'))
