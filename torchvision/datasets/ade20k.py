@@ -234,7 +234,7 @@ class ADE20K(VisionDataset):
 
         for file_name in os.listdir(self.images_dir):
             self.images.append(os.path.join(self.images_dir, file_name))
-            self.targets.append(os.path.join(self.targets_dir, file_name))
+            self.targets.append(os.path.join(self.targets_dir, file_name.replace('jpg', 'png')))
 
     def download(self):
         if not os.path.isdir(self.images_dir) or not os.path.isdir(self.targets_dir):
