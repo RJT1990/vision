@@ -150,4 +150,4 @@ class PASCALContext(VisionDataset):
         return img, target
 
     def __len__(self):
-        return len(self.images)
+        return len(self.ids)
