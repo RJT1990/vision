@@ -23,6 +23,14 @@ ARCHIVE_DICT = {
         'url': 'http://host.robots.ox.ac.uk/pascal/VOC/voc2010/VOCtrainval_03-May-2010.tar',
         'md5': 'da459979d0c395079b5c75ee67908abb',
         'base_dir': 'VOCdevkit/VOC2010',
+    },
+    'mask_train': {
+        'url': 'https://hangzh.s3.amazonaws.com/encoding/data/pcontext/train.pth',
+        'md5': 'cf4344a5eef8139e057e3efefab18b37',
+    },
+    'mask_val': {
+        'url': 'https://hangzh.s3.amazonaws.com/encoding/data/pcontext/val.pth',
+        'md5': '92636c23dca1b3f0ef8b1fba3a9e6b9e',
     }
 }
 
@@ -55,8 +63,7 @@ class PASCALContext(VisionDataset):
 
         base_dir = ARCHIVE_DICT['trainval']['base_dir']
         self.voc_root = os.path.join(self.root, base_dir)
-        image_dir = os.path.join(self.voc_root, 'JPEGImages')
-        mask_dir = os.path.join(self.voc_root, 'SegmentationClass')
+        self.image_dir = os.path.join(self.voc_root, 'JPEGImages')
         self.split = split
 
         if download:
@@ -69,39 +76,8 @@ class PASCALContext(VisionDataset):
 
         self.annotations_dict = json.load(open(self.annotations_file, 'r'))
         self.ids = self.annotations_dict['images']
-
-        self._mapping = np.sort(np.array([
-            0, 2, 259, 260, 415, 324, 9, 258, 144, 18, 19, 22,
-            23, 397, 25, 284, 158, 159, 416, 33, 162, 420, 454, 295, 296,
-            427, 44, 45, 46, 308, 59, 440, 445, 31, 232, 65, 354, 424,
-            68, 326, 72, 458, 34, 207, 80, 355, 85, 347, 220, 349, 360,
-            98, 187, 104, 105, 366, 189, 368, 113, 115]))
-        self._key = np.array(range(len(self._mapping))).astype('uint8')
         mask_file = os.path.join(self.voc_root, self.split+'.pth')
-        if os.path.exists(mask_file):
-            self.masks = torch.load(mask_file)
-        else:
-            print('Mask file does not exist...now preprocessing masks')
-            self.masks = self._preprocess_masks(mask_file)
-
-    def _class_to_index(self, mask):
-        # assert the values
-        values = np.unique(mask)
-        for i in range(len(values)):
-            assert(values[i] in self._mapping)
-        index = np.digitize(mask.ravel(), self._mapping, right=True)
-        return self._key[index].reshape(mask.shape)
-
-    def _preprocess_masks(self, mask_file):
-        masks = {}
-        print(len(self.ids))
-        for i in range(len(self.ids)):
-            print(i)
-            img_id = self.ids[i]
-            #mask = Image.fromarray(self._class_to_index(self._get_mask(img_id)))
-            #masks[img_id['image_id']] = mask
-        #torch.save(masks, mask_file)
-        return masks
+        self.masks = torch.load(mask_file)
 
     @property
     def annotations_file(self):
@@ -110,21 +86,31 @@ class PASCALContext(VisionDataset):
     def download(self):
 
         if not os.path.isdir(self.voc_root):
+
             archive_dict = ARCHIVE_DICT['trainval']
             download_and_extract_archive(archive_dict['url'], self.root,
                                          extract_root=self.root,
                                          md5=archive_dict['md5'])
+
+            archive_dict = ARCHIVE_DICT['trainval_annot']
+            download_and_extract_archive(archive_dict['url'], self.root,
+                                         extract_root=self.voc_root,
+                                         md5=archive_dict['md5'])
+
+            if key == 'mask_train' and self.split == 'train':
+                mask_dict = archive_dict['mask_train']
+            elif key == 'mask_val' and self.split == 'val':
+                mask_dict = archive_dict['mask_val']
+
+            download_and_extract_archive(mask_dict['url'], self.root,
+                                         extract_root=self.voc_root,
+                                         md5=mask_dict['md5'])
+
         else:
             msg = ("You set download=True, but a folder VOCdevkit already exist in "
                    "the root directory. If you want to re-download or re-extract the "
                    "archive, delete the folder.")
             print(msg)
-
-        if not check_integrity(self.annotations_file):
-            archive_dict = ARCHIVE_DICT['trainval_annot']
-            download_url(archive_dict['url'], self.voc_root,
-                         filename=os.path.basename(archive_dict['url']),
-                         md5=archive_dict['md5'])
 
     def __getitem__(self, index):
         """
@@ -134,8 +120,12 @@ class PASCALContext(VisionDataset):
         Returns:
             tuple: (image, target) where target is the image segmentation.
         """
-        img = Image.open(self.images[index]).convert('RGB')
-        target = Image.open(self.masks[index])
+
+        img_id = self.ids[index]
+        path = img_id['file_name']
+        iid = img_id['image_id']
+        img = Image.open(os.path.join(self.image_dir, path)).convert('RGB')
+        target = self.masks[iid]
 
         if self.transforms is not None:
             img, target = self.transforms(img, target)
