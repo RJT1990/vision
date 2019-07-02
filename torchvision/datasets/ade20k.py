@@ -219,7 +219,7 @@ class ADE20K(VisionDataset):
         if split == 'train':
             self.images_dir = os.path.join(self.root, base_dir, 'images', 'training')
             self.targets_dir = os.path.join(self.root, base_dir, 'annotations', 'training')
-        elif split == 'val'
+        elif split == 'val':
             self.images_dir = os.path.join(self.root, base_dir, 'images', 'validation')
             self.targets_dir = os.path.join(self.root, base_dir, 'annotations', 'validation')
 
