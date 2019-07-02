@@ -3,6 +3,7 @@ import numpy as np
 import os
 import sys
 import tarfile
+import torch
 import collections
 from .vision import VisionDataset
 
