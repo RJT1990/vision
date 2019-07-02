@@ -67,7 +67,7 @@ class ADE20K(VisionDataset):
         ADE20KClass('grass', 10, (4, 250, 7)),
         ADE20KClass('cabinet', 11, (224, 5, 255)),
         ADE20KClass('sidewalk;pavement', 12, (235, 255, 7)),
-        ADE20KClass('person;individual;someone;somebody;mortal;soul', 13, (150, 5, 61)),
+        ADE20KClass('person', 13, (150, 5, 61)),
         ADE20KClass('earth;ground', 14, (120, 120, 70)),
         ADE20KClass('door;double;door', 15, (8, 255, 51)),
         ADE20KClass('table', 16, (255, 6, 82)),
@@ -120,25 +120,22 @@ class ADE20K(VisionDataset):
         ADE20KClass('bookcase', 63, (0, 255, 245)),
         ADE20KClass('blind;screen', 64, (0, 61, 255)),
         ADE20KClass('coffee;table;cocktail;table', 65, (0, 255, 112)),
-        ADE20KClass('toilet;can;commode;crapper;pot;potty;stool;throne', 66, (0, 255, 133)),
+        ADE20KClass('toilet;can;commode;crapper;pot;potty;stool', 66, (0, 255, 133)),
         ADE20KClass('flower', 67, (255, 0, 0)),
         ADE20KClass('book', 68, (255, 163, 0)),
         ADE20KClass('hill', 69, (255, 102, 0)),
         ADE20KClass('bench', 70, (194, 255, 0)),
         ADE20KClass('countertop', 71, (0, 143, 255)),
-        ADE20KClass('stove;kitchen;stove;range;kitchen;range;cooking;stove', 72, (51, 255, 0)),
+        ADE20KClass('stove;kitchen;stove;range;kitchen;cooking;stove', 72, (51, 255, 0)),
         ADE20KClass('palm;palm;tree', 73, (0, 82, 255)),
         ADE20KClass('kitchen;island', 74, (0, 255, 41)),
-        ADE20KClass(
-            'computer;computing;machine;computing;device;data;processor;electronic;computer;information;processing;system',
-            75, (0, 255, 173)),
+        ADE20KClass('computer', 75, (0, 255, 173)),
         ADE20KClass('swivel;chair', 76, (10, 0, 255)),
         ADE20KClass('boat', 77, (173, 255, 0)),
         ADE20KClass('bar', 78, (0, 255, 153)),
         ADE20KClass('arcade;machine', 79, (255, 92, 0)),
         ADE20KClass('hovel;hut;hutch;shack;shanty', 80, (255, 0, 255)),
-        ADE20KClass('bus;autobus;coach;charabanc;double-decker;jitney;motorbus;motorcoach;omnibus;passenger;vehicle',
-                    81, (255, 0, 245)),
+        ADE20KClass('bus;coach;double-decker;passenger;vehicle', 81, (255, 0, 245)),
         ADE20KClass('towel', 82, (255, 0, 102)),
         ADE20KClass('light;light;source', 83, (255, 173, 0)),
         ADE20KClass('truck;motortruck', 84, (255, 0, 20)),
@@ -147,8 +144,7 @@ class ADE20K(VisionDataset):
         ADE20KClass('awning;sunshade;sunblind', 87, (0, 255, 61)),
         ADE20KClass('streetlight;street;lamp', 88, (0, 71, 255)),
         ADE20KClass('booth;cubicle;stall;kiosk', 89, (255, 0, 204)),
-        ADE20KClass('television;television;receiver;television;set;tv;tv;set;idiot;box;boob;tube;telly;goggle;box', 90,
-                    (0, 255, 194)),
+        ADE20KClass('television', 90, (0, 255, 194)),
         ADE20KClass('airplane;aeroplane;plane', 91, (0, 255, 82)),
         ADE20KClass('dirt;track', 92, (0, 10, 255)),
         ADE20KClass('apparel;wearing;apparel;dress;clothes', 93, (0, 112, 255)),
@@ -164,7 +160,7 @@ class ADE20K(VisionDataset):
         ADE20KClass('van', 103, (163, 255, 0)),
         ADE20KClass('ship', 104, (255, 235, 0)),
         ADE20KClass('fountain', 105, (8, 184, 170)),
-        ADE20KClass('conveyer;belt;conveyor;belt;conveyer;conveyor;transporter', 106, (133, 0, 255)),
+        ADE20KClass('conveyer;belt;conveyor;belt;conveyor;transporter', 106, (133, 0, 255)),
         ADE20KClass('canopy', 107, (0, 255, 92)),
         ADE20KClass('washer;automatic;washer;washing;machine', 108, (184, 0, 255)),
         ADE20KClass('plaything;toy', 109, (255, 0, 31)),
@@ -197,7 +193,7 @@ class ADE20K(VisionDataset):
         ADE20KClass('vase', 136, (0, 255, 204)),
         ADE20KClass('traffic;light;traffic;signal;stoplight', 137, (41, 0, 255)),
         ADE20KClass('tray', 138, (41, 255, 0)),
-        ADE20KClass('trash;can;garbage;can;wastebin;ash;bin;ash-bin;ashbin;dustbin;trash;barrel;trash;bin', 139, (173, 0, 255)),
+        ADE20KClass('trash;can;garbage;wastebin;bin;ashbin;dustbin;barrel;bin', 139, (173, 0, 255)),
         ADE20KClass('fan', 140, (0, 245, 255)),
         ADE20KClass('pier;wharf;wharfage;dock', 141, (71, 0, 255)),
         ADE20KClass('crt;screen', 142, (122, 0, 255)),
@@ -233,9 +229,6 @@ class ADE20K(VisionDataset):
 
         self.images = []
         self.targets = []
-
-        import pdb
-        pdb.set_trace()
 
         for file_name in os.listdir(self.images_dir):
             self.images.append(os.path.join(self.images_dir, file_name))
