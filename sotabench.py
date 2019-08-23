@@ -1,6 +1,6 @@
 from torchvision.models.alexnet import alexnet
 import torchvision.transforms as transforms
-from sotabench.image_classification import ImageNet
+from torchbench.image_classification import ImageNet
 import PIL
 import torch
 
