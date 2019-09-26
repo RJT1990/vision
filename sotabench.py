@@ -42,7 +42,7 @@ model = torchvision.models.segmentation.__dict__['fcn_resnet101'](num_classes=21
 model.to(device)
 model.eval()
 
-evaluator = PASCALVOCEvaluator(root='./data', dataset_year='2012', split='val', paper_model_name='FCN (ResNet-101)',
+evaluator = PASCALVOCEvaluator(model_name='FCN (ResNet-101)',
                               paper_arxiv_id='1605.06211')
 
 with torch.no_grad():
